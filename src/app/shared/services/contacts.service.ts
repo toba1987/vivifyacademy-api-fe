@@ -89,13 +89,21 @@ export class ContactsService {
   public getContactById(id: number)
   {
     return new Observable((o: Observer<any>) => {
-      let existing = this.contacts.filter(c => c.id == id);
+     /* let existing = this.contacts.filter(c => c.id == id);
       if (existing.length) {
         o.next(existing);
         return o.complete();
       } else {
         return o.error('Not found');
-      }
+      }*/
+     this.http.get('http://localhost:8000/api/contacts/' + id)
+         .subscribe((contact: any) => {
+             let existing = this.contacts.filter(c => c.id == id);
+             if (existing.length) {
+                 o.next(existing[0]);
+                 return o.complete();
+             }
+         });
     });
   }
 
