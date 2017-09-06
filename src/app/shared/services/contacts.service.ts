@@ -18,8 +18,15 @@ export class ContactsService {
   public getContacts()
   {
     return new Observable((o: Observer<any>) => {
-      o.next(this.contacts);
-      return o.complete();
+    //  o.next(this.contacts);
+    //  return o.complete();
+        this.http.get('http://localhost:8000/api/contacts').subscribe((contacts: any[]) =>{
+            this.contacts = contacts.map((contact) => {
+                return new Contact(contact.id, contact.first_name, contact.last_name, contact.email);
+            });
+            o.next(this.contacts);
+            return o.complete();
+        });
     });
   }
 
