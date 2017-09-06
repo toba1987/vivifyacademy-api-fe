@@ -33,12 +33,23 @@ export class ContactsService {
   public addContact(contact: Contact)
   {
     return new Observable((o: Observer<any>) => {
-      this.idCount++;
+    /*  this.idCount++;
       let c = new Contact(this.idCount, contact.firstName, contact.lastName, contact.email);
       
       this.contacts.push(c);
       o.next(c);
-      return o.complete();
+      return o.complete();*/
+    this.http.post('http://localhost:8000/api/contacts', {
+        first_name: contact.firstName,
+        last_name: contact.lastName,
+        email: contact.email
+    }).subscribe((contact: any) => {
+        let c = new Contact(contact.id, contact.first_name, contact.last_name, contact.email);
+        this.contacts.push(c);
+        o.next(c);
+        return o.complete();
+    });
+
     });
   }
 
