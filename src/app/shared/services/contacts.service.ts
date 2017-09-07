@@ -2,21 +2,27 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Contact } from './../models/contact.model';
 import { Observable, Observer } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class ContactsService {
 
   private contacts: Contact[] = [];
-  private idCount: number = 3;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+      private http: HttpClient,
+      private auth: AuthService
+  ) { }
 
   public getContacts()
   {
     return new Observable((o: Observer<any>) => {
     //  o.next(this.contacts);
     //  return o.complete();
-        this.http.get('http://localhost:8000/api/contacts').subscribe((contacts: any[]) =>{
+        this.http.get('http://localhost:8000/api/contacts', {
+            headers: this.auth.getRequestHeaders()
+        })
+            .subscribe((contacts: any[]) =>{
             this.contacts = contacts.map((contact) => {
                 return new Contact(contact.id, contact.first_name, contact.last_name, contact.email);
             });
