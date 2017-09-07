@@ -44,6 +44,8 @@ export class ContactsService {
         this.contacts.push(c);
         o.next(c);
         return o.complete();
+    }, () => {
+        console.log('Error');
     });
 
     });
@@ -75,7 +77,7 @@ export class ContactsService {
 
       o.next(index);
       return o.complete();*/
-        this.http.delete('http://localhost:8000/api/contacts/' + contact.id, )
+        this.http.delete('http://localhost:8000/api/contacts/' + contact.id)
             .subscribe(() => {
             const index = this.contacts.indexOf(contact);
             this.contacts.splice(index, 1);
