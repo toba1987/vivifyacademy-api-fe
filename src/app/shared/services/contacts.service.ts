@@ -35,17 +35,15 @@ export class ContactsService {
   public addContact(contact: Contact)
   {
     return new Observable((o: Observer<any>) => {
-    /*  this.idCount++;
-      let c = new Contact(this.idCount, contact.firstName, contact.lastName, contact.email);
-      
-      this.contacts.push(c);
-      o.next(c);
-      return o.complete();*/
+ 
     this.http.post('http://localhost:8000/api/contacts', {
         first_name: contact.firstName,
         last_name: contact.lastName,
         email: contact.email
-    }).subscribe((contact: any) => {
+    }, {
+        headers: this.auth.getRequestHeaders()
+    })
+        .subscribe((contact: any) => {
         let c = new Contact(contact.id, contact.first_name, contact.last_name, contact.email);
         this.contacts.push(c);
         o.next(c);
@@ -64,6 +62,8 @@ export class ContactsService {
             first_name: contact.firstName,
             last_name: contact.lastName,
             email: contact.email
+        }, {
+            headers: this.auth.getRequestHeaders()
         }).subscribe((contact: any) => {
             let existing = this.contacts.filter(c => c.id == contact.id);
             if(existing.length){
@@ -83,7 +83,9 @@ export class ContactsService {
 
       o.next(index);
       return o.complete();*/
-        this.http.delete('http://localhost:8000/api/contacts/' + contact.id)
+        this.http.delete('http://localhost:8000/api/contacts/' + contact.id, {
+            headers: this.auth.getRequestHeaders()
+        })
             .subscribe(() => {
             const index = this.contacts.indexOf(contact);
             this.contacts.splice(index, 1);
@@ -104,7 +106,9 @@ export class ContactsService {
       } else {
         return o.error('Not found');
       }*/
-     this.http.get('http://localhost:8000/api/contacts/' + id)
+     this.http.get('http://localhost:8000/api/contacts/' + id, {
+         headers: this.auth.getRequestHeaders()
+     })
          .subscribe((contact: any) => {
              let existing = this.contacts.filter(c => c.id == id);
              if (existing.length) {
