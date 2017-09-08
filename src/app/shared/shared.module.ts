@@ -4,7 +4,7 @@ import { ContactsService } from './services/contacts.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
-
+import { GuestGuard } from './guards/guest.guard';
 @NgModule({
   imports: [
     CommonModule,
@@ -13,7 +13,8 @@ import { AuthGuard } from './guards/auth.guard';
   providers: [
   	ContactsService,
       AuthService,
-      AuthGuard
+      AuthGuard,
+      GuestGuard
 
   ],
   declarations: [
