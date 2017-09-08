@@ -1,4 +1,5 @@
 import { Component, Inject } from '@angular/core';
+import { AuthService } from './../../shared/services/auth.service';
 
 @Component({
   selector: 'app-layout',
@@ -6,6 +7,6 @@ import { Component, Inject } from '@angular/core';
 })
 export class LayoutComponent {
 
-  constructor() {}
+  constructor(private auth: AuthService) {}
 
 }

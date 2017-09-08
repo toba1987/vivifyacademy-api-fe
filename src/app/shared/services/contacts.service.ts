@@ -35,7 +35,7 @@ export class ContactsService {
   public addContact(contact: Contact)
   {
     return new Observable((o: Observer<any>) => {
- 
+
     this.http.post('http://localhost:8000/api/contacts', {
         first_name: contact.firstName,
         last_name: contact.lastName,

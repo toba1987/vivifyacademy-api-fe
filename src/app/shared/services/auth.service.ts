@@ -3,7 +3,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Observer } from "rxjs";
 @Injectable()
 export class AuthService {
-    constructor(private http: HttpClient) {}
+    public isAuthenticated: boolean;
+
+    constructor(private http: HttpClient) {
+        let token =  window.localStorage.getItem('token');
+        this.isAuthenticated = !!token;
+    }
 
     login(email: string, password: string){
         return new Observable((o: Observer<any>) => {
@@ -12,6 +17,7 @@ export class AuthService {
                 password
             }).subscribe((data: { token: string }) => {
                 window.localStorage.setItem('token', data.token);
+                this.isAuthenticated = true;
                 o.next(data.token);
                 return o.complete();
             }, (err) => {
@@ -19,6 +25,11 @@ export class AuthService {
             });
 
         });
+    }
+
+    logout(){
+        window.localStorage.removeItem('token');
+        this.isAuthenticated = false;
     }
 
     getRequestHeaders(){
