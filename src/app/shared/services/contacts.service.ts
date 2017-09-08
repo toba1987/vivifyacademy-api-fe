@@ -24,7 +24,7 @@ export class ContactsService {
         })
             .subscribe((contacts: any[]) =>{
             this.contacts = contacts.map((contact) => {
-                return new Contact(contact.id, contact.first_name, contact.last_name, contact.email);
+                return new Contact(contact);
             });
             o.next(this.contacts);
             return o.complete();
@@ -44,7 +44,7 @@ export class ContactsService {
         headers: this.auth.getRequestHeaders()
     })
         .subscribe((contact: any) => {
-        let c = new Contact(contact.id, contact.first_name, contact.last_name, contact.email);
+        let c = new Contact(contact);
         this.contacts.push(c);
         o.next(c);
         return o.complete();
@@ -99,24 +99,18 @@ export class ContactsService {
   public getContactById(id: number)
   {
     return new Observable((o: Observer<any>) => {
-     /* let existing = this.contacts.filter(c => c.id == id);
-      if (existing.length) {
-        o.next(existing);
-        return o.complete();
-      } else {
-        return o.error('Not found');
-      }*/
      this.http.get('http://localhost:8000/api/contacts/' + id, {
          headers: this.auth.getRequestHeaders()
      })
          .subscribe((contact: any) => {
-             let existing = this.contacts.filter(c => c.id == id);
+
+            o.next(new Contact(contact));
+            return o.complete();
+           /*  let existing = this.contacts.filter(c => c.id == id);
              if (existing.length) {
                  o.next(existing[0]);
-                 return o.complete();
-             }
+                 return o.complete();*/
          });
     });
   }
-
 }

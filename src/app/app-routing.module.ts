@@ -6,6 +6,7 @@ import { ContactDetailsComponent } from './components/contacts/contact-details/c
 import { LoginComponent } from './components/auth/login.component';
 import { AuthGuard } from './shared/guards/auth.guard';
 import { GuestGuard } from './shared/guards/guest.guard';
+import { ContactResolver } from './shared/resolvers/contact.resolver';
 
 const appRoutes: Routes = [
   {
@@ -25,7 +26,10 @@ const appRoutes: Routes = [
     children: [
       {
         path: ':id',
-        component: ContactDetailsComponent
+        component: ContactDetailsComponent,
+          resolve: {
+              contact: ContactResolver
+          }
       }
     ]
   }
